@@ -5,7 +5,7 @@ import { renderWithTheme } from '../../util/test-utils';
 
 import HorizontalNav from './HorizontalNav';
 
-let instanceToRender;
+let instanceToRender: React.JSX.Element;
 const onClick = jest.fn();
 
 beforeEach(() => {
@@ -45,5 +45,5 @@ it('executes onClick when nav item clicked', () => {
 it('disabled item prevents onclick functions', () => {
   const { getByText } = renderWithTheme(instanceToRender);
   getByText('Disabled').click();
-  expect(onClick).not.toBeCalled();
+  expect(onClick).not.toHaveBeenCalled();
 });

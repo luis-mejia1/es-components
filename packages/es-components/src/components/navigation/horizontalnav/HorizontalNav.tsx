@@ -1,14 +1,15 @@
 import React from 'react';
 
-import { useNavigation } from '../useNavigation';
+import { NavigationProps, useNavigation } from '../useNavigation';
 import { useNavigationItem } from '../useNavigationItem';
 
-const Navigation = useNavigation('horizontal');
+function HorizontalNav(props: NavigationProps) {
+  const Navigation = useNavigation('horizontal');
 
-function HorizontalNav(props) {
   return <Navigation {...props} />;
 }
 
+//does this ever run?
 HorizontalNav.Item = useNavigationItem('horizontal');
 
 export default HorizontalNav;

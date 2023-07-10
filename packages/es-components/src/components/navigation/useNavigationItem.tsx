@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 
 import Icon from '../base/icons/Icon';
 
-const NavItemWrapper = styled.li`
+type NavItemWrapperProps = JSXElementProps<'li'> & {
+  isActive: boolean;
+  isDisabled: boolean;
+  isVertical: boolean;
+};
+
+interface NavItemProps {
+  useAltStyle?: boolean;
+  children: React.ReactNode;
+  highlightedId: string | number;
+  id: string | number;
+  isDisabled: boolean;
+}
+
+const NavItemWrapper = styled.li<NavItemWrapperProps>`
   background-color: ${props => props.theme.colors.white};
   color: ${props => props.theme.colors.black};
   cursor: pointer;
@@ -130,8 +144,8 @@ const NavigationAnchor = styled.a`
   width: 100%;
 `;
 
-export function useNavigationItem(orientation) {
-  function NavItem(props) {
+export function useNavigationItem(orientation: string) {
+  function NavItem(props: NavItemProps) {
     const { highlightedId, id, isDisabled, useAltStyle, children } = props;
 
     const isActive = id === highlightedId;
@@ -139,7 +153,16 @@ export function useNavigationItem(orientation) {
     const isVertical = orientation === 'vertical';
 
     const child = React.Children.only(children);
-    const { children: grandChildren, ...rest } = child.props;
+    if (!isValidElement(child)) {
+      return null;
+    }
+    // help here
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const {
+      children: grandChildren,
+      ...rest
+    }: { children: React.ReactElement; [key: string]: React.ReactElement } =
+      child.props;
     const styledChild = (
       <NavigationAnchor
         as={child.type}

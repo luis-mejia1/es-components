@@ -207,6 +207,10 @@ export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 export default interface ESTheme {
   [key: string]: any;
 
+  brandColors: {
+    [key in ColorName]: CSS.Property.Color;
+  };
+
   colors: Colors;
   brandColors: {
     primary1: CSS.Property.Color;
